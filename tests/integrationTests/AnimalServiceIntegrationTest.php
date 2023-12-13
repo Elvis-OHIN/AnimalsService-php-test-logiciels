@@ -11,6 +11,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+
 require __DIR__ . '/../../src/AnimalService.php';
 
 /**
@@ -31,23 +32,34 @@ final class AnimalServiceIntegrationTest extends TestCase
     // test de suppression de toute les données, nécessaire pour nettoyer la bdd de tests à la fin
     public function testDeleteAll()
     {
+        $response = $this->animalService->deleteAllAnimal();
+        $this->assertInstanceOf(PDOStatement::class,  $response);
     }
 
 
     public function testCreation()
     {
+        $response = $this->animalService->createAnimal('Chat', '55858551');
+        $this->assertTrue($response);
     }
 
     public function testSearch()
     {
+        $this->animalService->createAnimal('Chat', '55858551');
+        $response = $this->animalService->searchAnimal('Chat');
+        $this->assertIsArray($response);
     }
 
     public function testModify()
     {
+        $response = $this->animalService->updateAnimal(1,'Chat', '55858551');
+        $this->assertTrue($response);
     }
 
     public function testDelete()
     {
+        $response = $this->animalService->deleteAnimal(1);
+        $this->assertTrue($response);
     }
 
 }
